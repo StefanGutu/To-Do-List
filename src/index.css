@@ -13,6 +13,21 @@ body{
     padding: 5px;
 }
 
+.task-input{
+    font-size: 1.5rem;
+    border-radius: 10px;
+
+}
+
+.add-button{
+    font-size: 1.5rem;
+    border-radius: 10px;
+    margin-left: 5px;
+}
+
+.add-button:hover , .remove-button:hover,.undone-button:hover,.done-button:hover{
+    background-color: rgb(162, 162, 162);
+}
 
 .task-list {
     list-style-position: inside; 
@@ -20,11 +35,34 @@ body{
 }
 
 li{
+    display: flex;
+    align-items: center;
     border: 2px solid black;
     margin-right: 35px;
     padding: 10px;
     border-radius: 5px;
 }
+
+
+.task-name{
+    font-size: 1.7em;
+    font-weight: 300;
+    font-style: italic;
+    flex:1;
+}
+
+button{
+    cursor: pointer;
+}
+
+.remove-button,.undone-button,.done-button{
+    font-size: 1.3rem;
+    border: 2px solid black;
+    margin-left: 2px;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
 
 .state-undone{
     background-color: rgb(217, 63, 63);
@@ -37,26 +75,3 @@ li{
 .state-in-progress{
     background-color: rgb(230, 230, 88);
 }
-
-.task-name{
-    flex:1;
-}
-
-.remove-button{
-    border: 2px solid black;
-
-}
-
-.buttons-from-list{
-    margin: 2px;
-}
-
-button{
-    cursor: pointer;
-}
-
-.remove-button, .select-button{
-    border: 2px solid black;
-    margin-left: 2px;
-}
-

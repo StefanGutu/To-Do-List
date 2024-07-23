@@ -53,12 +53,14 @@ function ToDoList({initialTasks = []}){
 
                     <h1> To Do List </h1>
 
-                    <input  type="text" 
+                    <input  className="task-input"
+                            type="text" 
                             placeholder="Add a task"  
                             value={newTask} 
                             onChange={handleInputToNewTask}></input>
 
-                    <button onClick={handleAddTask}> Add </button>
+                    <button className="add-button"
+                            onClick={handleAddTask}> Add </button>
 
                 </div>
 
@@ -67,29 +69,21 @@ function ToDoList({initialTasks = []}){
                         {tasks.map((task,index) => 
                             <li key = {index} className={getStateTask(task.state)}>
 
-                                <span className = "task-name"> {task.name} </span>
-                                
-                                <div className="buttons-from-list">
 
-                                    <button className="remove-button" onClick={() => handleRemoveTask(index)}>
-                                        Remove
-                                    </button>
-                                    
-                                    <select className="select-button" value={tasks.state} 
-                                            onChange={(e) => handleStateTaskChange(index,e.target.value)}>
-                                        <option className="Undone" value="Undone"> 
-                                            Undone 
-                                        </option>
-                                        <option value="InProgress"> 
-                                            In progress 
-                                        </option>
-                                        <option value="Done"> 
-                                            Done 
-                                        </option>
-                                    </select>
-
-                                </div>
+                                <span className = "task-name"> {index+1}. {task.name}</span>
                                 
+                                <button className="undone-button" onClick={(e) => handleStateTaskChange(index,"Undone")}>
+                                    <i class="fa-regular fa-circle-xmark"></i>
+                                </button>
+
+                                <button className="done-button" onClick={(e) => handleStateTaskChange(index,"Done")}>
+                                    <i class="fa-regular fa-circle-check"></i>
+                                </button>
+
+                                <button className="remove-button" onClick={() => handleRemoveTask(index)}>
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+
                             </li>
                         )}
 
