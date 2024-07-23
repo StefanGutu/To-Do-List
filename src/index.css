@@ -1,0 +1,62 @@
+body{
+    background-color: rgb(18, 170, 175);
+    text-align: center;
+    
+}
+
+.to-do-list{
+    display: inline-block; 
+    border: 5px solid black;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.3em;
+    padding: 5px;
+}
+
+
+.task-list {
+    list-style-position: inside; 
+    margin-top: 10px;
+}
+
+li{
+    border: 2px solid black;
+    margin-right: 35px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.state-undone{
+    background-color: rgb(217, 63, 63);
+}
+
+.state-done{
+    background-color: rgb(67, 192, 67);
+}
+
+.state-in-progress{
+    background-color: rgb(230, 230, 88);
+}
+
+.task-name{
+    flex:1;
+}
+
+.remove-button{
+    border: 2px solid black;
+
+}
+
+.buttons-from-list{
+    margin: 2px;
+}
+
+button{
+    cursor: pointer;
+}
+
+.remove-button, .select-button{
+    border: 2px solid black;
+    margin-left: 2px;
+}
+
