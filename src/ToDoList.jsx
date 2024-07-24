@@ -14,7 +14,7 @@ function ToDoList({initialTasks = []}){
 
     function handleAddTask(){
         if(newTask.trim() !== ""){ // check if the input is empty or consist only whitespace 
-            setTasks(t => [...t, {name: newTask, state: "InProgress"}]);
+            setTasks(t => [...t, {name: newTask, state: "new-in-list"}]);
             setNewTask("");
         }
     }
@@ -35,12 +35,15 @@ function ToDoList({initialTasks = []}){
     function getStateTask(state){
 
         switch(state){
+            
             case "Undone":
                 return "state-undone";
             case "Done":
                 return "state-done";
             case "InProgress":
                 return "state-in-progress";
+            default:
+                return "new-task";
         }
     }
 
@@ -72,6 +75,10 @@ function ToDoList({initialTasks = []}){
 
                                 <span className = "task-name"> {index+1}. {task.name}</span>
                                 
+                                <button className="in-progress-button" onClick={(e) => handleStateTaskChange(index,"InProgress")}>
+                                <i class="fa-solid fa-spinner"></i>
+                                </button>
+
                                 <button className="undone-button" onClick={(e) => handleStateTaskChange(index,"Undone")}>
                                     <i class="fa-regular fa-circle-xmark"></i>
                                 </button>
@@ -100,7 +107,7 @@ function ToDoList({initialTasks = []}){
 ToDoList.propTypes = {
     initialTasks: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string,
-        state: PropTypes.oneOf(['Undone','InProgress','Done'])
+        state: PropTypes.oneOf(['Undone','InProgress','Done','new-in-list'])
     }))
 }
 

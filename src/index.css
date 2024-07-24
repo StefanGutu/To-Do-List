@@ -15,7 +15,7 @@ body {
 }
 
 .task-input, .add-button {
-    @apply text-xl rounded-lg border border-black ml-2.5 font-normal;
+    @apply text-xl rounded-lg border border-black ml-2.5 font-normal bg-slate-300 p-1;
 }
 
 .task-list {
@@ -27,7 +27,7 @@ button {
 }
 
 button:hover {
-    @apply bg-slate-300;
+    @apply bg-stone-300;
 }
 
 li {
@@ -41,7 +41,7 @@ li {
 }
 
 
-.remove-button, .undone-button, .done-button {
+.remove-button, .undone-button, .done-button ,.in-progress-button{
     @apply text-lg border border-black ml-0.5 rounded-md box-border p-1;
 }
 
@@ -55,4 +55,8 @@ li {
 
 .state-in-progress {
     @apply bg-amber-300;
+}
+
+.new-task{
+    @apply bg-gray-300;
 }
