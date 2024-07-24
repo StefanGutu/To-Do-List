@@ -1,77 +1,58 @@
-body{
-    background-color: rgb(18, 170, 175);
-    text-align: center;
-    
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+{/*Tailwind*/}
+
+
+body {
+    @apply bg-cyan-500 text-center;
 }
 
-.to-do-list{
-    display: inline-block; 
-    border: 5px solid black;
-    border-radius: 10px;
-    text-align: center;
-    font-size: 1.3em;
-    padding: 5px;
+.to-do-list {
+    @apply inline-block border-4 border-black rounded-lg text-center p-2.5 mt-2.5;
+    @apply text-3xl font-serif font-semibold;
 }
 
-.task-input{
-    font-size: 1.5rem;
-    border-radius: 10px;
-
-}
-
-.add-button{
-    font-size: 1.5rem;
-    border-radius: 10px;
-    margin-left: 5px;
-}
-
-.add-button:hover , .remove-button:hover,.undone-button:hover,.done-button:hover{
-    background-color: rgb(162, 162, 162);
+.task-input, .add-button {
+    @apply text-xl rounded-lg border border-black ml-2.5 font-normal;
 }
 
 .task-list {
-    list-style-position: inside; 
-    margin-top: 10px;
+    @apply list-inside mt-2.5;
 }
 
-li{
-    display: flex;
-    align-items: center;
-    border: 2px solid black;
-    margin-right: 35px;
-    padding: 10px;
-    border-radius: 5px;
+button {
+    @apply cursor-pointer;
 }
 
-
-.task-name{
-    font-size: 1.7em;
-    font-weight: 300;
-    font-style: italic;
-    flex:1;
+button:hover {
+    @apply bg-slate-300;
 }
 
-button{
-    cursor: pointer;
+li {
+    @apply flex items-center border-2 border-black p-2.5 rounded-md m-3.5 ;
+    
 }
 
-.remove-button,.undone-button,.done-button{
-    font-size: 1.3rem;
-    border: 2px solid black;
-    margin-left: 2px;
-    border-radius: 5px;
-    box-sizing: border-box;
+.task-name {
+    @apply text-2xl font-serif italic flex-1 ;
+    word-break: break-word;
 }
 
 
-.state-undone{
-    background-color: rgb(217, 63, 63);
+.remove-button, .undone-button, .done-button {
+    @apply text-lg border border-black ml-0.5 rounded-md box-border p-1;
 }
 
-.state-done{
-    background-color: rgb(67, 192, 67);
+.state-undone {
+    @apply bg-red-500;
 }
 
-.state-in-progress{
-    background-color: rgb(230, 230, 88);
+.state-done {
+    @apply bg-green-500;
+}
+
+.state-in-progress {
+    @apply bg-amber-300;
 }

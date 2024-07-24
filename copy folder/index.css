@@ -1,0 +1,79 @@
+//CSS
+
+body{
+    background-color: rgb(18, 170, 175); 
+    text-align: center;
+    
+}
+
+.to-do-list{
+    display: inline-block; 
+    border: 5px solid black;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.3em;
+    padding: 5px;
+}
+
+.task-input{
+    font-size: 1.5rem;
+    border-radius: 10px;
+
+}
+
+.add-button{
+    font-size: 1.5rem;
+    border-radius: 10px;
+    margin-left: 5px;
+}
+
+.add-button:hover , .remove-button:hover,.undone-button:hover,.done-button:hover{
+    background-color: rgb(162, 162, 162);
+}
+
+.task-list {
+    list-style-position: inside; 
+    margin-top: 10px;
+}
+
+li{
+    display: flex;
+    align-items: center;
+    border: 2px solid black;
+    margin-right: 35px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
+.task-name{
+    font-size: 1.7em;
+    font-weight: 300;
+    font-style: italic;
+    flex:1;
+}
+
+button{
+    cursor: pointer;
+}
+
+.remove-button,.undone-button,.done-button{
+    font-size: 1.3rem;
+    border: 2px solid black;
+    margin-left: 2px;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+
+.state-undone{
+    background-color: rgb(217, 63, 63);
+}
+
+.state-done{
+    background-color: rgb(67, 192, 67);
+}
+
+.state-in-progress{
+    background-color: rgb(230, 230, 88);
+}
