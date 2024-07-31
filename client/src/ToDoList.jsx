@@ -10,48 +10,44 @@ function ToDoList({ initialTasks = [] }) {
         setNewTask(event.target.value);
     }
 
-    function handleAddTask() {
-        if (newTask.trim() !== "") { // check if the input is empty or consists only of whitespace
-            const task = { name: newTask, state: "new-in-list" };
-            
-            axios.post('http://localhost:5000/api/tasks', task)
-                .then(response => {
-                    setTasks(t => [...t, response.data]);
-                    sortTaskState(tasks);
-                    setNewTask("");
-                })
-                .catch(error => {
-                    console.error('There was an error adding the task!', error);
-                });
+    const handleAddTask = () => {
+        if (newTask.trim() !== "") { // check if the input is empty or consist only whitespace 
+            const updatedTasks = [...tasks, { name: newTask, state: "new-in-list" }];
+            const sortedTasks = sortTaskState(updatedTasks);
+            setTasks(sortedTasks);
+
+            // Send the sorted tasks to the backend
+            axios.post('http://localhost:5000/api/tasks/sorted', sortedTasks)
+                .then(response => console.log(response.data))
+                .catch(error => console.error('There was an error sending the tasks!', error));
+
+            setNewTask("");
         }
-    }
+    };
 
-    function handleRemoveTask(index) {
-        const taskToRemove = tasks[index];
+    const handleRemoveTask = (index) => {
+        const updatedTasks = tasks.filter((_, i) => i !== index);
+        const sortedTasks = sortTaskState(updatedTasks);
+        setTasks(sortedTasks);
 
-        axios.delete(`http://localhost:5000/api/tasks/${taskToRemove.id}`)
-            .then(() => {
-                setTasks(tasks.filter((_, i) => i !== index));
-            })
-            .catch(error => {
-                console.error('There was an error deleting the task!', error);
-            });
-    }
+        // Update the backend with the new sorted tasks
+        axios.post('http://localhost:5000/api/tasks/sorted', sortedTasks)
+            .then(response => console.log(response.data))
+            .catch(error => console.error('There was an error sending the tasks!', error));
+    };
 
 
-    function handleStateTaskChange(index, newState) {
-        const updatedStateTasks = [...tasks];
-        updatedStateTasks[index].state = newState;
-        const taskToUpdate = updatedStateTasks[index];
+    const handleStateTaskChange = (index, newState) => {
+        const updatedTasks = [...tasks];
+        updatedTasks[index].state = newState;
+        const sortedTasks = sortTaskState(updatedTasks);
+        setTasks(sortedTasks);
 
-        axios.put(`http://localhost:5000/api/tasks/${taskToUpdate.id}`, taskToUpdate)
-            .then(response => {
-                setTasks(sortTaskState(updatedStateTasks));
-            })
-            .catch(error => {
-                console.error('There was an error updating the task!', error);
-            });
-    }
+        // Update the backend with the new sorted tasks
+        axios.post('http://localhost:5000/api/tasks/sorted', sortedTasks)
+            .then(response => console.log(response.data))
+            .catch(error => console.error('There was an error sending the tasks!', error));
+    };
 
 
     function getStateTask(state) {

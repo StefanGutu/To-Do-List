@@ -19,7 +19,6 @@ const pool = new Pool({
 });
 
 
-
 //Get all tasks
 app.get('/api/tasks', async (req, res) => { // get request
   try { //handle errors if they occur
@@ -32,56 +31,27 @@ app.get('/api/tasks', async (req, res) => { // get request
 });
 
 
-
-//Create a new task
-app.post('/api/tasks', async (req, res) => { // post request
-  const { name, state } = req.body; // new data
+// Endpoint to update the sorted tasks
+app.post('/api/tasks/sorted', async (req, res) => {
+  const sortedTasks = req.body;
   try {
-    const result = await pool.query( // send new data to the database
-      'INSERT INTO tasks (name, state) VALUES ($1, $2) RETURNING *', // RETURNING * - return the new row back
-      [name, state]
-    );
-    res.status(201).json(result.rows[0]); // contain the new row that is on index 0
+    // Delete all existing tasks
+    await pool.query('DELETE FROM tasks');
+    
+    // Insert sorted tasks
+    for (const task of sortedTasks) {
+      await pool.query(
+        'INSERT INTO tasks (name, state) VALUES ($1, $2)',
+        [task.name, task.state]
+      );
+    }
+    res.status(201).send('Tasks updated successfully');
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
   }
 });
 
-
-
-// Endpoint to update a task
-app.put('/api/tasks/:id', async (req, res) => { // put request
-  const { id } = req.params;  // id from url
-  const { name, state } = req.body; //data from the req
-  try {
-    const result = await pool.query( //update the state of the task
-      'UPDATE tasks SET name = $1, state = $2 WHERE id = $3 RETURNING *',
-      [name, state, id]
-    );
-    res.json(result.rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Server error');
-  }
-});
-
-
-
-// Endpoint to delete a task
-app.delete('/api/tasks/:id', async (req, res) => {
-  const { id } = req.params; // gets the id from the url
-  try {
-    const result = await pool.query( // delete the specified element
-      'DELETE FROM tasks WHERE id = $1 RETURNING *',
-      [id]
-    );
-    res.status(204).send();
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Server error');
-  }
-});
 
 
 app.listen(port, () => {
