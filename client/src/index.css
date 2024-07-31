@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+{/*Tailwind*/}
+
+
+body {
+    @apply bg-cyan-500 text-center;
+}
+
+.to-do-list {
+    @apply inline-block border-4 border-black rounded-lg text-center p-2.5 mt-2.5;
+    @apply text-3xl font-serif font-semibold;
+}
+
+.task-input, .add-button {
+    @apply text-xl rounded-lg border border-black ml-2.5 font-normal bg-slate-300 p-1;
+}
+
+.task-list {
+    @apply list-inside mt-2.5;
+}
+
+button {
+    @apply cursor-pointer;
+}
+
+button:hover {
+    @apply bg-stone-300;
+}
+
+li {
+    @apply flex items-center border-2 border-black p-2.5 rounded-md m-3.5 ;
+    
+}
+
+.task-name {
+    @apply text-2xl font-serif italic flex-1 ;
+    word-break: break-word;
+}
+
+
+.remove-button, .undone-button, .done-button ,.in-progress-button{
+    @apply text-lg border border-black ml-0.5 rounded-md box-border p-1;
+}
+
+.state-undone {
+    @apply bg-red-500;
+}
+
+.state-done {
+    @apply bg-green-500;
+}
+
+.state-in-progress {
+    @apply bg-amber-300;
+}
+
+.new-task{
+    @apply bg-gray-300;
+}
