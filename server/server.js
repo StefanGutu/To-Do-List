@@ -31,7 +31,7 @@ app.get('/api/tasks', async (req, res) => { // get request
 });
 
 
-// Endpoint to update the sorted tasks
+//Update the sorted tasks
 app.post('/api/tasks/sorted', async (req, res) => {
   const sortedTasks = req.body;
   try {
