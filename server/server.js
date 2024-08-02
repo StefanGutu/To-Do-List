@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -9,13 +10,14 @@ const port = 5000;
 app.use(bodyParser.json()); //send the body of incoming requests
 app.use(cors()); //enable express server to respond to requests
 
+
 // PostgreSQL connection with database
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'postgres',
-  password: '331331',
-  port: 5432, 
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
 
 
