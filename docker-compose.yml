@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:13
+    restart: always
+    container_name: my_postgres_container
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    networks:
+      - my-network
+    volumes:
+      - ./postgres-db:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d
+  
+  server:
+    container_name: toDoList_Server
+    restart: unless-stopped
+    image: server-test
+    build: 
+      context: server
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    networks:
+      - my-network
+    depends_on:
+      - postgres
+    
+  client:
+    container_name: toDoList_client
+    restart: unless-stopped
+    image: client-test
+    build: 
+      context: client
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    networks:
+      - my-network
+    depends_on:
+      - server
+
+networks:
+  my-network:
