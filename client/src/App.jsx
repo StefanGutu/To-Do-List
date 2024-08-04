@@ -8,6 +8,7 @@ function App() {
     
     const {loading, error, data} = useQuery(SHOW_TASKS);
 
+    
     if(loading){
         return <div>Loading...</div>; // display loading while data gets back from the server
     }

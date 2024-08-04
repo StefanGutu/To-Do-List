@@ -1,14 +1,5 @@
 import { gql } from '@apollo/client';
 
-//Function to delete all tasks
-const DELETE_ALL_TASKS = gql`
-  mutation deleteAllTasks {
-    delete_tasks(where: {}) {
-      affected_rows
-    }
-  }
-`;
-
 //Function to delete only one task
 const DELETE_TASK = gql`
   mutation deleteOneTask($name: String!) {
@@ -19,16 +10,32 @@ const DELETE_TASK = gql`
 `;
 
 //Function to insert the sorted tasks
-const INSERT_TASKS = gql`
-  mutation insertTasks($tasks: [tasks_insert_input!]!) {
-    insert_tasks(objects: $tasks) {
-      affected_rows
+const INSERT_TASK = gql`
+  mutation InsertTask($name: String!, $state: String!) {
+    insert_tasks(objects: { name: $name, state: $state }) {
+      returning {
+        id
+        name
+        state
+      }
+    }
+  }
+`;
+
+const UPDATE_TASK_STATE = gql`
+  mutation UpdateTaskState($name: String!, $state: String!) {
+    update_tasks(where: { name: { _eq: $name } }, _set: { state: $state }) {
+      returning {
+        id
+        name
+        state
+      }
     }
   }
 `;
 
 export {
-  DELETE_ALL_TASKS,
   DELETE_TASK,
-  INSERT_TASKS,
+  INSERT_TASK,
+  UPDATE_TASK_STATE,
 }

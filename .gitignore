@@ -1,7 +1,5 @@
 .env
 
-server
-
 postgres-db
 
 copy folder

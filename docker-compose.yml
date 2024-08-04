@@ -53,5 +53,20 @@ services:
     depends_on:
       - hasura
 
+  # custom-graphql-server:
+  #   build:
+  #     context: ./server
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "4000:4000"
+  #   networks:
+  #     - my-network
+  #   depends_on:
+  #     - postgres
+  #   environment:
+  #     POSTGRES_USER: ${POSTGRES_USER}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #     POSTGRES_DB: ${POSTGRES_DB}
+
 networks:
   my-network:
