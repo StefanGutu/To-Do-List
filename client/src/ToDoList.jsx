@@ -1,52 +1,51 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
+import { gql, useMutation } from '@apollo/client';
+import {DELETE_ALL_TASKS,DELETE_TASK,INSERT_TASKS} from './graphql/mutations';
 
 function ToDoList({ initialTasks = [] }) {
     const [tasks, setTasks] = useState(initialTasks);
     const [newTask, setNewTask] = useState("");
 
+    const [deleteAllTasks] = useMutation(DELETE_ALL_TASKS);
+    const [insertTasks] = useMutation(INSERT_TASKS);
+    const [deleteTask] = useMutation(DELETE_TASK);
+
     function handleInputToNewTask(event) {
         setNewTask(event.target.value);
     }
 
-    const handleAddTask = () => {
+    const handleAddTask = async() => { // allow me to use await that is necessary for deleting and adding tasks
         if (newTask.trim() !== "") { // check if the input is empty or consist only whitespace 
             const updatedTasks = [...tasks, { name: newTask, state: "new-in-list" }];
             const sortedTasks = sortTaskState(updatedTasks);
             setTasks(sortedTasks);
-
-            // Send the sorted tasks to the backend
-            axios.post('http://localhost:5000/api/tasks/sorted', sortedTasks)
-                .then(response => console.log(response.data))
-                .catch(error => console.error('There was an error sending the tasks!', error));
-
             setNewTask("");
+
+            await updateTasks(sortedTasks);
         }
     };
 
-    const handleRemoveTask = (index) => {
+    const handleRemoveTask = async(index) => {
+        const name = tasks[index].name;
         const updatedTasks = tasks.filter((_, i) => i !== index);
-        const sortedTasks = sortTaskState(updatedTasks);
-        setTasks(sortedTasks);
+        setTasks(updatedTasks);
 
-        // Update the backend with the new sorted tasks
-        axios.post('http://localhost:5000/api/tasks/sorted', sortedTasks)
-            .then(response => console.log(response.data))
-            .catch(error => console.error('There was an error sending the tasks!', error));
+        try{
+            await deleteTask({ variables: { name } });
+        }catch(error){
+            console.error('Error deleting task:', error);
+        }
     };
 
 
-    const handleStateTaskChange = (index, newState) => {
+    const handleStateTaskChange = async(index, newState) => {
         const updatedTasks = [...tasks];
         updatedTasks[index].state = newState;
         const sortedTasks = sortTaskState(updatedTasks);
         setTasks(sortedTasks);
 
-        // Update the backend with the new sorted tasks
-        axios.post('http://localhost:5000/api/tasks/sorted', sortedTasks)
-            .then(response => console.log(response.data))
-            .catch(error => console.error('There was an error sending the tasks!', error));
+        await updateTasks(sortedTasks);
     };
 
 
@@ -71,7 +70,21 @@ function ToDoList({ initialTasks = [] }) {
         });
     }
 
-
+    async function updateTasks(sortedTasks){
+        try{
+            await deleteAllTasks();
+            console.log('All tasks deleted successfully.');
+        }catch(error){
+            console.error('Error deleting tasks:', error);
+        }
+    
+        try{
+            await insertTasks({variables: {tasks: sortedTasks }});
+            console.log('New tasks inserted successfully.');
+        }catch(error){
+            console.error('Error inserting tasks:', error);
+        }
+    }
 
     return (
         <>
