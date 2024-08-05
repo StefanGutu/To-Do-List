@@ -16,21 +16,29 @@ services:
     volumes:
       - ./postgres-db:/var/lib/postgresql/data
       - ./postgres-init:/docker-entrypoint-initdb.d
-  
-  server:
-    container_name: toDoList_Server
-    restart: unless-stopped
-    image: server-test
-    build: 
-      context: server
-      dockerfile: Dockerfile
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
+
+  hasura:
+    image: hasura/graphql-engine:v2.41.0
+    restart: always
+    container_name: hasura
     ports:
-      - "5000:5000"
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+      HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_PASSWORD}
     networks:
       - my-network
-    depends_on:
-      - postgres
-    
+
   client:
     container_name: toDoList_client
     restart: unless-stopped
@@ -43,7 +51,7 @@ services:
     networks:
       - my-network
     depends_on:
-      - server
+      - hasura
 
 networks:
   my-network:

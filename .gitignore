@@ -2,6 +2,8 @@
 
 postgres-db
 
+
+
 copy folder
 
 node_modules
@@ -30,3 +32,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+*.exe
