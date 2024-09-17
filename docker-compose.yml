@@ -52,6 +52,7 @@ services:
       - my-network
     depends_on:
       - hasura
+      
 
 networks:
   my-network:
